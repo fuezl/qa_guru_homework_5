@@ -4,6 +4,7 @@ import components.Calendar;
 
 import java.io.File;
 
+import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static java.lang.String.format;
@@ -27,39 +28,43 @@ public class RegistrationPage extends BasePage {
         $("input#userEmail").val(email);
     }
 
-    public void selectGender(String gender){
+    public void selectGender(String gender) {
         $(format("[name=gender][value=%s]", gender)).parent().click();
     }
 
-    public void inputPhone(String phone){
+    public void inputPhone(String phone) {
         $("input#userNumber").val(phone);
     }
 
-    public void setDateOfBirth(String day, String month, String year){
-        calendar.setDate(day,month,year);
+    public void setDateOfBirth(String day, String month, String year) {
+        calendar.setDate(day, month, year);
     }
 
-    public void typeSubjects(String subjects){
+    public void typeSubjects(String subjects) {
         $("#subjectsInput").setValue(subjects).pressEnter();
     }
 
-    public void typeHobbies(String hobbies){
+    public void typeHobbies(String hobbies) {
         $("#hobbiesWrapper").$(byText(hobbies)).click();
     }
 
-    public void uploadFile(String picture){
+    public void uploadFile(String picture) {
         $("#uploadPicture").uploadFile(new File(format("src/test/resources/%s", picture)));
     }
 
-    public void typeAddress(String address){
+    public void typeAddress(String address) {
         $("#currentAddress").setValue(address);
     }
 
-    public void selectState(String state){
+    public void selectState(String state) {
         $("#react-select-3-input").setValue(state).pressEnter();
     }
 
-    public void selectCity(String city){
+    public void selectCity(String city) {
         $("#react-select-4-input").setValue(city).pressEnter();
+    }
+
+    public void textCheck(String locator, String value) {
+        $("tbody").$(byText(locator)).sibling(0).shouldHave(matchText(value));
     }
 }

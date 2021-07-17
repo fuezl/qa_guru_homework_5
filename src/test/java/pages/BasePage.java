@@ -9,7 +9,7 @@ public class BasePage {
         open(url);
     }
 
-    public void clickSubmit(){
+    public void clickSubmit() {
         $("#submit").click();
     }
 }

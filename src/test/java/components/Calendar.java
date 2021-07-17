@@ -9,7 +9,7 @@ public class Calendar {
         $(".react-datepicker__month-select").selectOption(month);
         $(".react-datepicker__year-select").selectOption(year);
         String dayLocator = "";
-        if (Integer.parseInt(day) > 9)  {
+        if (Integer.parseInt(day) > 9) {
             dayLocator = format(".react-datepicker__day--0%s" +
                     ":not(.react-datepicker__day--outside-month)", day);
         } else {

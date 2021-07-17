@@ -4,15 +4,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.codeborne.selenide.Condition.matchText;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
 import static java.lang.String.format;
 
 public class PracticeFormTest {
@@ -36,18 +31,17 @@ public class PracticeFormTest {
     String city = "Noida";
 
 
-    Map<String, String> person = new HashMap<String, String>()
-    {{
-      put("Student Name", format("%s %s", firstName, lastName));
-      put("Student Email", email);
-      put("Gender", gender);
-      put("Mobile", phone);
-      put("Date of Birth", format("%s %s,%s", day, month, year));
-      put("Subjects", subjects);
-      put("Hobbies", hobbies);
-      put("Picture", picture);
-      put("Address", address);
-      put("State and City", format("%s %s", state, city));
+    Map<String, String> person = new HashMap<String, String>() {{
+        put("Student Name", format("%s %s", firstName, lastName));
+        put("Student Email", email);
+        put("Gender", gender);
+        put("Mobile", phone);
+        put("Date of Birth", format("%s %s,%s", day, month, year));
+        put("Subjects", subjects);
+        put("Hobbies", hobbies);
+        put("Picture", picture);
+        put("Address", address);
+        put("State and City", format("%s %s", state, city));
     }};
 
 
@@ -77,8 +71,10 @@ public class PracticeFormTest {
         registrationPage.clickSubmit();
 
         //Assert
-        $("tbody").$(byText("Student Name")).sibling(0).shouldHave(matchText(format("%s %s", firstName, lastName)));
-        $(".table-hover>tbody>tr:nth-child(2)>td:nth-child(2)").shouldHave(matchText(email));
-        $(".table-hover>tbody>tr:nth-child(4)>td:nth-child(2)").shouldHave(matchText(phone));
+        for (Map.Entry<String, String> entry : person.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            registrationPage.textCheck(key, value);
+        }
     }
 }
