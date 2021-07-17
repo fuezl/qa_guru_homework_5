@@ -11,9 +11,6 @@ import static java.lang.String.format;
 
 public class RegistrationPage extends BasePage {
 
-    private final static String FORM_TITLE = "Student Registration Form";
-    private final static String RESULTS_TITLE = "Thanks for submitting the form";
-
     private Calendar calendar = new Calendar();
 
     public void inputFirstName(String firstName) {
