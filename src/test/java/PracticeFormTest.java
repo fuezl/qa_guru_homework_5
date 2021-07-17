@@ -2,6 +2,7 @@ import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import pages.RegistrationPage;
 
 import java.io.File;
 import java.util.HashMap;
@@ -16,7 +17,8 @@ import static java.lang.String.format;
 
 public class PracticeFormTest {
 
-    Faker faker = new Faker(new Locale("ru"));
+    Faker faker = new Faker(new Locale("en"));
+    RegistrationPage registrationPage = new RegistrationPage();
 
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
@@ -57,30 +59,26 @@ public class PracticeFormTest {
     @Test
     void positiveFillTest() {
         //Arrange
-        open("/automation-practice-form");
+        registrationPage.openPage("/automation-practice-form");
 
         //Act
-        $("input#firstName").setValue("Ivan");
-        $("input#lastName").setValue("Ivanov");
-        $("input#userEmail").setValue("ivan.ivanov@gmail.com");
-        $("label[for='gender-radio-1']").click();
-        $("input#userNumber").setValue("9251116644");
-        $("input#dateOfBirthInput").click();
-        $(".react-datepicker__year-select").selectOptionContainingText("1990");
-        $(".react-datepicker__month-select").selectOptionContainingText("May");
-        $(".react-datepicker__day--019").click();
-        $(".subjects-auto-complete__value-container").click();
-        $("#subjectsInput").setValue("Economics").pressEnter();
-        $("label[for='hobbies-checkbox-1']").click();
-        $("#uploadPicture").uploadFile(new File("src/test/resources/Mr_beans.jpg"));
-        $("#currentAddress").setValue("Russia");
-        $("input#react-select-3-input").setValue("NCR").pressEnter();
-        $("#react-select-4-input").setValue("Noida").pressEnter();
-        $("#submit").scrollTo().click();
+        registrationPage.inputFirstName(firstName);
+        registrationPage.inputLastName(lastName);
+        registrationPage.inputUserEmail(email);
+        registrationPage.selectGender(gender);
+        registrationPage.inputPhone(phone);
+        registrationPage.setDateOfBirth(day, month, year);
+        registrationPage.typeSubjects(subjects);
+        registrationPage.typeHobbies(hobbies);
+        registrationPage.uploadFile(picture);
+        registrationPage.typeAddress(address);
+        registrationPage.selectState(state);
+        registrationPage.selectCity(city);
+        registrationPage.clickSubmit();
 
         //Assert
-        $("tbody").$(byText("Student Name")).sibling(0).shouldHave(matchText("Ivan Ivanov"));
-        $(".table-hover>tbody>tr:nth-child(2)>td:nth-child(2)").shouldHave(matchText("ivan.ivanov@gmail.com"));
-        $(".table-hover>tbody>tr:nth-child(4)>td:nth-child(2)").shouldHave(matchText("9251116644"));
+        $("tbody").$(byText("Student Name")).sibling(0).shouldHave(matchText(format("%s %s", firstName, lastName)));
+        $(".table-hover>tbody>tr:nth-child(2)>td:nth-child(2)").shouldHave(matchText(email));
+        $(".table-hover>tbody>tr:nth-child(4)>td:nth-child(2)").shouldHave(matchText(phone));
     }
 }
