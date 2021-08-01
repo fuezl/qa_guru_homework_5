@@ -51,6 +51,7 @@ public class PracticeFormTest {
     }
 
     @Test
+    // Тест на заполнение формы
     void positiveFillTest() {
         //Arrange
         registrationPage.openPage("/automation-practice-form");
